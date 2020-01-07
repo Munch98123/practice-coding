@@ -1,0 +1,272 @@
+using System;
+//allows for the use of StringBuilder
+using System.Text;
+//allows for the use of dictionaries
+using System.Collections.Generic;
+
+namespace InterviewQuestions
+{
+    class Solutions
+    {
+        //Reverse a string
+
+        //Swap all characters from front to back
+        void ReverseString(string str)
+        {
+            char[] characters = str.ToCharArray();
+            for (int i = 0, j = str.Length - 1; i < j; i++, j--)
+            {
+                characters[i] = str[j];
+                characters[j] = str[i];
+            }
+            string reversedString = new string(characters);
+            Console.WriteLine(reversedString);
+        }
+
+        //Find if the given string is a palindrome or not
+
+        //the string will be a palindrome if all of the pairs of reverse characters are the same 
+        //r a c e c a r for example
+        void Palindrome(string str)
+        {
+            bool flag = false;
+            for(int i = 0, j = str.Length - 1;i < str.Length / 2; i++, j--)
+            {
+                if (str[i] != str[j])
+                {
+                    flag = false;
+                    break;
+                }
+                else
+                    flag = true;
+            }
+            if (flag)
+                Console.WriteLine("String is a palindrome");
+            else
+                Console.WriteLine("String is not a palindrome");
+        }
+
+        //Reverse the order of words in a given string
+
+        void ReverseWords(string str)
+        {
+            int i;
+            //Creates an empty string that can have its size and contents modified
+            StringBuilder revSentence = new StringBuilder();
+            //counters to handle incrementing through the string
+            int Start = str.Length - 1;
+            int End = str.Length - 1;
+            //while we are at the end of the sentence
+            while (Start > 0)
+            {
+                //we start at the end of the string and increment towards a space
+                //When we get to that space, we add the word we just incremented over to the empty string 
+                //continue doing this until we get to the beginning of the string
+                if (str[Start] == ' ')
+                {
+                    i = Start + 1;
+                    while (i <= End)
+                    {
+                        revSentence.Append(str[i]);
+                        i++;
+                    }
+                    revSentence.Append(' ');
+                    End = Start - 1;
+                }
+                Start--;
+            }
+            //extra loop for getting the last word since we stop at the beginning of the sentence and there is no space
+            for(i = 0; i < End; i++)
+            {
+                revSentence.Append(str[i]);
+            }
+            Console.WriteLine(revSentence.ToString());
+        }
+
+        //Count the occurence of each character in a string
+
+        //Create a dictionary where the key is the letter and the value is # of times it is in the string
+        //Iterate through the string and count the number of times each letter is found
+        void CountChar(string str)
+        {
+            Dictionary<char, int> characters = new Dictionary<char, int>();
+
+            foreach(char character in str)
+            {
+                //assuming we are not at a space 
+                if(character != ' ')
+                {
+                    //if the character is not already found in the dictionary, add it
+                    if (!characters.ContainsKey(character))
+                        characters.Add(character, 1);
+                    //otherwise add a point to the value at the key(character)
+                    else
+                        characters[character]++;
+                }
+            }
+        }
+
+        //remove duplicate characters from a string
+
+        void Removedupe(string str)
+        {
+            //create an empty string
+            string finalString = string.Empty;
+
+            for(int i = 0; i < str.Length; i++)
+            {
+                //if a character is not already in the string, add it
+                //otherwise ignore it since we only want one of each character
+                if (!finalString.Contains(str[i]))
+                {
+                    finalString += str[i];
+                }
+            }
+            Console.WriteLine(finalString);
+        }
+
+        //Find all possible substrings of a string
+
+        void FindSubStrings(string str)
+        {
+            //starts at the first character and iterates through each substring starting through that character
+            //then goes to next character and iterates through subtrings with that character minus the previous character
+
+            for(int i = 0; i < str.Length; i++)
+            {
+                //StringBuilder allows us to create a string that can be modified both in contents and size
+                StringBuilder newString = new StringBuilder(str.Length - 1);
+                for(int j = i;j < str.Length; j++)
+                {
+                    newString.Append(str[j]);
+                    Console.Write(newString + " ");
+                }
+            }
+        }
+
+        //Perform a Left circular rotation of an Array
+
+        void LeftCircle(int[] array)
+        {
+            //variable for the length of the array
+            int arraySize = array.Length;
+            int temp;
+            //start at the last index
+            for(int i = arraySize - 1; i > 0; i--)
+            {
+                //save last element to temporary variable
+                temp = array[arraySize- 1];
+                //swap elements based on index in array
+                //[1,2,3,4]
+                //first swap last and second to last    [1,2,4,3]
+                //then last and just before second to last      [1,3,4,2]
+                //repeat for as many elements in array
+                //then last and first   [2,3,4,1]
+                array[array.Length - 1] = array[i - 1];
+                array[i - 1] = temp;
+                for (int j = 0; j < array.Length; j++)
+                    Console.Write(array[j] + " ");
+                Console.Write("\n");
+            }
+            foreach(int index in array)
+            {
+                Console.Write(index + " ");
+            }
+        }
+
+        //determine if a number is prime
+
+        void isPrime(int num)
+        {
+            string notPrime = "Not Prime";
+            string Prime = "Prime";
+            //we dont count 1 as a prime
+            if (num == 1) 
+            { 
+                Console.WriteLine(notPrime);
+                return;
+            }
+            //2 is the first prime
+            if (num == 2) 
+            { 
+                Console.WriteLine(Prime);
+                return;
+            }  
+            //if a number can be evenly divisible by 2 then it is not prime
+            if (num % 2 == 0) 
+            { 
+                Console.WriteLine(notPrime);
+                return;
+            }
+            //if there is a divisor that is less than the square root of a number 
+            //then there will be a divisor greater than the square root of the number
+            //example: sqrt(64) = 8, 64 has 2 as a divisor which is less than the suare root
+            // the other divisor would be 32 then, greater than the squre root 
+            int squareRoot = (int)Math.Floor(Math.Sqrt(num));
+            for (int i = 3; i < squareRoot; i++)
+                if (num % i == 0)
+                {
+                    Console.WriteLine(notPrime);
+                    return;
+                }
+            Console.WriteLine(Prime);
+            return;
+        }
+
+        //add the digits of an integer
+
+        void digitAdd(int num)
+        {
+            int sum = 0;
+            while(num > 0)
+            {
+                //adds the modulus to the sum
+                //the modulus is the remainder of the division
+                sum += (num % 10);
+                num /= 10;
+                Console.WriteLine(sum + " - " + num);
+            }
+            Console.WriteLine("Total sum: " + sum);
+        }
+
+        //second largest value in only one loop
+
+        void SecondLargest(int[] array)
+        {
+            //creates minimum values for each number
+            int lrg1 = int.MinValue;
+            int lrg2 = int.MinValue;
+
+            foreach(int i in array)
+            {
+                //condition to see if the current number is larger than the first of our variables
+                if(i > lrg1)
+                {
+                    //set the current value of lrg1 to lrg2 since the value we have is larger than lrg1
+                    lrg2 = lrg1;
+                    lrg1 = i;
+                }
+                //if we find a value larger than our second number and less than our largest number
+                else if(i >= lrg2 && i < lrg1)
+                {
+                    lrg2 = i;
+                }
+            }
+            Console.WriteLine(lrg2);
+        }
+        static void Main(string[] args)
+        {
+            int[] array1 = { 1, 2, 3, 4 };
+            int[] array2 = { 10, 4, 2, 7, 1, 6 };
+            string testString = "abcde";
+            Solutions s = new Solutions();
+            s.FindSubStrings(testString);
+            s.LeftCircle(array1);
+            s.isPrime(47);
+            s.isPrime(6);
+            s.digitAdd(1234);
+            s.digitAdd(5678);
+            s.SecondLargest(array2);
+        }
+    }
+}
