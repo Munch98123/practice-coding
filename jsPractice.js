@@ -37,3 +37,25 @@ function CheckForSunday(){
 }
 
 console.log(CheckForSunday())
+
+console.log("Write a JavaScript program where the program takes a random integer between 1 and 10, and the user is then prompted to input a guess number.");
+
+function GuessingGame(){
+    let randomInt = Math.floor(Math.random() * 11);
+    let userPrompt = prompt("Please enter a number between 1 and 10 or press e to exit: ");
+    while(userPrompt !== 'e'){
+        let userPromptConvert = parseInt(userPrompt);
+        if(userPromptConvert === randomInt){
+            console.log("Good Guess, you got it!");
+            randomInt = Math.floor(Math.random() * 11);
+            userPrompt = prompt("Please enter a number between 1 and 10 or press e to exit: ");
+        }
+        else{
+            console.log("Sorry, try again!");
+            userPrompt = prompt("Please try again or press e to exit: ");
+        }
+    }
+    console.log("Thanks for playing!");
+}
+
+GuessingGame();
