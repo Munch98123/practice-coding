@@ -59,3 +59,25 @@ function GuessingGame(){
 }
 
 GuessingGame();
+
+
+console.log("Write a JavaScript program to calculate the days left before Christmas: ");
+
+function DaysBeforeChristmas(){
+    let currentDay = new Date();
+    let currentYear = currentDay.getFullYear();
+    let nextChristmas = new Date(currentYear, 11, 25);
+    
+    if(currentDay.getUTCDate() > 25 && currentDay.getUTCMonth() == 11){
+        nextChristmas.setFullYear(currentYear+1);
+    }
+    const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+    
+    const utc1 = Date.UTC(currentDay.getFullYear(), currentDay.getMonth(), currentDay.getDate());
+    const utc2 = Date.UTC(nextChristmas.getFullYear(), nextChristmas.getMonth(), nextChristmas.getDate());
+    let difference = Math.floor((utc2 - utc1) / _MS_PER_DAY);
+    console.log(difference + " days before christmas!");
+    
+}
+
+DaysBeforeChristmas();
